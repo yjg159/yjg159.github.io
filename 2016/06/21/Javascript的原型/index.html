@@ -1,0 +1,749 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="fonts.useso.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+
+<meta name="description" content="Javascript的原型
+声明:此文章转载自网络。如需转载请标注原文地址。
+
+当我开始学习JavaScript的对象模型时，第一反应就是难以置信。我完全被它的原型本质给弄糊涂了，毕竟这是我头一次遇到以原型为基础的语言。因为JS中有构造函数这个概念，所以我看不出使用原型能给JS带来任何的好处。我敢说你们中的大部分人也有同样的经历。
+但是当我更多的使用JavaScript后，我不仅开始理解它的对象模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript的原型">
+<meta property="og:url" content="http://yoursite.com/2016/06/21/Javascript的原型/index.html">
+<meta property="og:site_name" content="UncleYe's Blog">
+<meta property="og:description" content="Javascript的原型
+声明:此文章转载自网络。如需转载请标注原文地址。
+
+当我开始学习JavaScript的对象模型时，第一反应就是难以置信。我完全被它的原型本质给弄糊涂了，毕竟这是我头一次遇到以原型为基础的语言。因为JS中有构造函数这个概念，所以我看不出使用原型能给JS带来任何的好处。我敢说你们中的大部分人也有同样的经历。
+但是当我更多的使用JavaScript后，我不仅开始理解它的对象模">
+<meta property="og:image" content="http://cdn1.w3cplus.com/cdn/farfuture/-BKlGu1jItePrxyLq30qg_DWdQMcnM9N7X6ZQ25xVrU/mtime:1421035169/sites/default/files/styles/print_image/public/blogs/2013/js-prototypes-1.jpg">
+<meta property="og:updated_time" content="2016-06-21T06:27:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Javascript的原型">
+<meta name="twitter:description" content="Javascript的原型
+声明:此文章转载自网络。如需转载请标注原文地址。
+
+当我开始学习JavaScript的对象模型时，第一反应就是难以置信。我完全被它的原型本质给弄糊涂了，毕竟这是我头一次遇到以原型为基础的语言。因为JS中有构造函数这个概念，所以我看不出使用原型能给JS带来任何的好处。我敢说你们中的大部分人也有同样的经历。
+但是当我更多的使用JavaScript后，我不仅开始理解它的对象模">
+<meta name="twitter:image" content="http://cdn1.w3cplus.com/cdn/farfuture/-BKlGu1jItePrxyLq30qg_DWdQMcnM9N7X6ZQ25xVrU/mtime:1421035169/sites/default/files/styles/print_image/public/blogs/2013/js-prototypes-1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Javascript的原型 | UncleYe's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">UncleYe's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Javascript的原型
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-21T14:26:01+08:00" content="2016-06-21">
+              2016-06-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/21/Javascript的原型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/21/Javascript的原型/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Javascript的原型"><a href="#Javascript的原型" class="headerlink" title="Javascript的原型"></a>Javascript的原型</h3><blockquote>
+<p>声明:此文章转载自网络。如需转载请标注原文地址。</p>
+</blockquote>
+<p>当我开始学习JavaScript的对象模型时，第一反应就是难以置信。我完全被它的原型本质给弄糊涂了，毕竟这是我头一次遇到以原型为基础的语言。因为JS中有构造函数这个概念，所以我看不出使用原型能给JS带来任何的好处。我敢说你们中的大部分人也有同样的经历。</p>
+<p>但是当我更多的使用JavaScript后，我不仅开始理解它的对象模型，甚至还喜欢上了它的一部分。感谢JavaScript让我见识到了原型语言的优雅与灵活。现在的我十分推崇原型语言，原因就是相对于以类为基础的语言，原型语言的有着更简单、更灵活的对象模型。<br><a id="more"></a></p>
+<h5 id="Javascript中的原型"><a href="#Javascript中的原型" class="headerlink" title="Javascript中的原型"></a>Javascript中的原型</h5><p>绝大部分的指南或者教程在开始讲解JavaScript对象时，总是直接从「构造函数」讲起。我觉得这是错误的，因为过早的引入相对复杂的概念，只能让JavaScript看起来更复杂，学起来更迷惑。所以让我们暂时抛开这个概念，先讲讲原型的基础。</p>
+<h5 id="原型链-又叫做原型继承"><a href="#原型链-又叫做原型继承" class="headerlink" title="原型链(又叫做原型继承)"></a>原型链(又叫做原型继承)</h5><p>JavaScript中的所有对象都有原型。当对象收到一个消息(译者注：在这里可以理解为属性查找或方法调用)，JavaScript便尝试先从对象自身查找属性，如果查不到，那么该消息就会传递给对象的原型并以此类推。这个工作机制很像以类为基础的语言中的单根继承。</p>
+<p><img src="http://cdn1.w3cplus.com/cdn/farfuture/-BKlGu1jItePrxyLq30qg_DWdQMcnM9N7X6ZQ25xVrU/mtime:1421035169/sites/default/files/styles/print_image/public/blogs/2013/js-prototypes-1.jpg" alt="deodesign"></p>
+<p>原型链的长度没有限制，但通常来说，过长的原型链会造成代码维护与理解上的困难，因此不值得推荐。</p>
+<h5 id="proto-对象"><a href="#proto-对象" class="headerlink" title="__proto__对象"></a>__proto__对象</h5><p>理解JavaScript原型链最简单的方式就是通过__proto__属性。可惜的是，在ES 6之前，__proto__并不是JavaScript中的标准接口，所以一定不要在工作代码中使用它。尽管有这样的限制，这个属性使我们讲解原型更容易了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 让我们先创建一个alien对象</span></span><br><span class="line"><span class="keyword">var</span> alien = &#123;</span><br><span class="line">  kind: <span class="string">'alien'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 然后是一个person对象</span></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  kind: <span class="string">'person'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 最后是一个叫做zack的对象</span></span><br><span class="line"><span class="keyword">var</span> zack = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置alien为zack的原型</span></span><br><span class="line">zack.__proto__ = alien</span><br><span class="line"></span><br><span class="line"><span class="comment">// zack现在与alien关联了起来</span></span><br><span class="line"><span class="comment">//  它继承了alien的所有属性</span></span><br><span class="line"><span class="built_in">console</span>.log(zack.kind); <span class="comment">//=&gt; ‘alien’</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 接下来将person设置为zack的原型</span></span><br><span class="line">zack.__proto__ = person</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这时候zack又和person关联在一起了</span></span><br><span class="line"><span class="built_in">console</span>.log(zack.kind); <span class="comment">//=&gt; ‘person’</span></span><br></pre></td></tr></table></figure>
+<p>如你所见，__proto__属性的含义与用法简单明了。即便我们不能在工作的代码中使用__proto__，但我想上面那些例子已经为你理解JavaScript对象模型打下了坚实的基础。</p>
+<p>你可以像下面这么操作，来判断一个对象是否是另一个对象的原型：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(alien.isPrototypeOf(zack))</span><br><span class="line"><span class="comment">//=&gt; true</span></span><br></pre></td></tr></table></figure>
+<h5 id="原型查找是动态的"><a href="#原型查找是动态的" class="headerlink" title="原型查找是动态的"></a>原型查找是动态的</h5><p>你可以在任何时候为原型增加新属性，原型链查找机制会如你所愿找到这些新属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> zack = &#123;&#125;</span><br><span class="line">zack.__proto__ = person</span><br><span class="line"></span><br><span class="line"><span class="comment">//当前zack没有kind属性</span></span><br><span class="line"><span class="built_in">console</span>.log(zack.kind); <span class="comment">//=&gt; undefined</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 让我们在person上增加kind属性</span></span><br><span class="line">person.kind = <span class="string">'person'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在有反应了，因为它从person上找到了kind属性</span></span><br><span class="line"><span class="built_in">console</span>.log(zack.kind); <span class="comment">//=&gt; 'person'</span></span><br></pre></td></tr></table></figure>
+<h5 id="新建-更新的属性被赋值给了对象，而不是它的原型"><a href="#新建-更新的属性被赋值给了对象，而不是它的原型" class="headerlink" title="新建/更新的属性被赋值给了对象，而不是它的原型"></a>新建/更新的属性被赋值给了对象，而不是它的原型</h5><p>如果你更新一个在原型上已经存在的属性会发生什么？我们来试试：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  kind: <span class="string">'person'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> zack = &#123;&#125;</span><br><span class="line">zack.__proto__ = person</span><br><span class="line"></span><br><span class="line">zack.kind = <span class="string">'zack'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(zack.kind); <span class="comment">//=&gt; 'zack'</span></span><br><span class="line"><span class="comment">// zack 现在拥有kind属性</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(person.kind); <span class="comment">//=&gt; 'person'</span></span><br><span class="line"><span class="comment">// person上的属性没有被修改</span></span><br></pre></td></tr></table></figure>
+<p>注意：[kind]属性已经同时存在于person和zack上了。</p>
+<h5 id="Object-create"><a href="#Object-create" class="headerlink" title="Object.create"></a>Object.create</h5><p>前面解释过使用<strong>proto</strong>为对象设置原型这个办法并不通用。所以我们介绍另外一种简单方法：Object.create()。这是在ES 5中新增的方法，对于那些古老的浏览器或者JS引擎，可以使用<a href="https://github.com/kriskowal/es5-shim" target="_blank" rel="external">es5-shim</a>来模拟。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  kind: <span class="string">'person'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  创建一个原型为person的新对象</span></span><br><span class="line"><span class="keyword">var</span> zack = <span class="built_in">Object</span>.create(person);</span><br><span class="line">  </span><br><span class="line"><span class="built_in">console</span>.log(zack.kind); <span class="comment">// =&gt; ‘person’</span></span><br></pre></td></tr></table></figure>
+<p>你可以向Object.create()方法中传入一个对象，用来给新生成的对象设置特定的属性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> zack = <span class="built_in">Object</span>.create(person, &#123;age: &#123;value:  <span class="number">13</span>&#125; &#125;);</span><br><span class="line"><span class="built_in">console</span>.log(zack.age); <span class="comment">// =&gt; ‘13’</span></span><br></pre></td></tr></table></figure>
+<p>是不是觉得传进去的对象很麻烦？实际上它必须是这个样子。详细可以查看<a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/create" target="_blank" rel="external">文档</a>。</p>
+<h5 id="Object-getPrototype"><a href="#Object-getPrototype" class="headerlink" title="Object.getPrototype"></a>Object.getPrototype</h5><p>可以使用Object.getPrototypeOf()方法来获得对象的原型：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ar zack = <span class="built_in">Object</span>.create(person);</span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf(zack); <span class="comment">//=&gt; person</span></span><br></pre></td></tr></table></figure>
+<p>这里可没有Object.setPorototype这样设置原型的方法。</p>
+<h5 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h5><p>在JavaScript中，构造函数是用来创建原型链最常用的方法。构造函数如此流行的原因在于：它是创建类型的唯一途径。另外一个值得考虑的因素是大部分引擎都对构造函数进行了高度优化。</p>
+<p>很不幸的是，构造函数容易让人困惑，在我看来，它是让初学者认为JavaScript难以理解的主要原因。但构造函数是JS语言中的一个重要部分，我们必须对其深刻理解。</p>
+<h5 id="作为构造器的函数"><a href="#作为构造器的函数" class="headerlink" title="作为构造器的函数"></a>作为构造器的函数</h5><p>在JavaScript中，创建函数的实例可以这么来做：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> foo = <span class="keyword">new</span> Foo();</span><br><span class="line"></span><br><span class="line"><span class="comment">//foo 现在是Foo的一个实例</span></span><br><span class="line"><span class="built_in">console</span>.log(foo <span class="keyword">instanceof</span> Foo ) <span class="comment">//=&gt; true</span></span><br></pre></td></tr></table></figure>
+<p>对函数使用关键字new，使得函数从本质上来讲表现的像工厂，即函数能够生成新的对象。后面会讲到，新创建的对象通过函数的原型与函数保持关联。在JavaScript中，我们将这个对象称为函数的实例。</p>
+<h5 id="隐式赋值的「this」"><a href="#隐式赋值的「this」" class="headerlink" title="隐式赋值的「this」"></a>隐式赋值的「this」</h5><p>当我们使用「new」，JavaScript以「this」关键字的形式向函数中注入了新创建对象的隐式引用。在函数运行结尾处也会隐式的返回该引用。</p>
+<p>当我们这么做：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.kind = ‘foo’</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> foo = <span class="keyword">new</span> Foo(); </span><br><span class="line">foo.kind <span class="comment">//=&gt; ‘foo’</span></span><br></pre></td></tr></table></figure>
+<p>实际上会相当于这么做：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> <span class="keyword">this</span> = &#123;&#125;; <span class="comment">// 这里的this是无效的，我们这么做只是为了演示</span></span><br><span class="line">  <span class="keyword">this</span>.__proto__ = Foo.prototype;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">this</span>.kind = ‘foo’</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是：只有在使用「new」的时候，「this」才会被赋值为新创建的对象。如果你忘记书写「new」，那么「this」会指向全局对象。忘记new是造成众多bug的原因，所以千万不要忘记写new。</p>
+<p>有一个惯例我十分喜欢，那就是如果一个函数被用作构造函数，那么它的函数名首字母要大写，如果你忘记写new关键字，就会很容易发觉。</p>
+<h5 id="「函数原型」"><a href="#「函数原型」" class="headerlink" title="「函数原型」"></a>「函数原型」</h5><p>JavaScript中的每个函数都有一个特殊属性「prototype」。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo.prototype</span><br></pre></td></tr></table></figure>
+<p>让人有些不敢相信的是：此「prototype」并非函数真正的原型(<strong>proto</strong>)。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo.__proto__ === foo.prototype <span class="comment">//=&gt; false</span></span><br></pre></td></tr></table></figure>
+<p>如果「prototype」术语的含义如此不明确，可想而知会对使用它的人们产生多大的困扰。有一个澄清的方法我认为不错，那就是始终将函数的「prototype」属性称为「函数的原型」，永远不要称其为「原型」。</p>
+<p>「prototype」属性指向一个对象，这个对象就是当对函数使用「new」时创建的实例的原型。听起来糊涂？用例子来解释是最容易不过的了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数person拥有一个prototype属性</span></span><br><span class="line"><span class="comment">// 我们可以为函数的原型增加新属性</span></span><br><span class="line">Person.prototype.kind = ‘person’</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当我们使用new来生成新对象时</span></span><br><span class="line"><span class="keyword">var</span> zack = <span class="keyword">new</span> Person(‘Zack’);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 新对象的原型将指向person.prototype</span></span><br><span class="line">zack.__proto__ == Person.prototype <span class="comment">//=&gt; true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//  在这个新对象中，我们能够访问在Person.prototype上定义的属性</span></span><br><span class="line">zack.kind <span class="comment">//=&gt; person</span></span><br></pre></td></tr></table></figure>
+<p>这就是关于JavaScript对象模型的绝大部分内容了。理解<strong>proto</strong>与function.prototype是如何关联的将会给你带来无尽的满足感，当然也可能相反。</p>
+<p>出处：</p>
+<p>英文原文：<a href="http://sporto.github.com/blog/2013/02/22/a-plain-english-guide-to-javascript-prototypes/" target="_blank" rel="external">http://sporto.github.com/blog/2013/02/22/a-plain-english-guide-to-javascript-prototypes/</a></p>
+<p>中文译文：<a href="http://www.w3cplus.com/js/a-plain-english-guide-to-javascript-prototypes.html" target="_blank" rel="external">http://www.w3cplus.com/js/a-plain-english-guide-to-javascript-prototypes.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag">#javascript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/06/2016-6-6/" rel="next" title="每天都有新发现！">
+                <i class="fa fa-chevron-left"></i> 每天都有新发现！
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/21/Javascript的原型/"
+           data-title="Javascript的原型" data-url="http://yoursite.com/2016/06/21/Javascript的原型/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/head.jpg"
+               alt="Uncle Ye" />
+          <p class="site-author-name" itemprop="name">Uncle Ye</p>
+          <p class="site-description motion-element" itemprop="description">工欲善其事必先利其器。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yjg159" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/uncle_yee" target="_blank" title="twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.weibo.com/u/2850579221" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://fancybian.github.io" title="FancyBian" target="_blank">FancyBian</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Javascript的原型"><span class="nav-number">1.</span> <span class="nav-text">Javascript的原型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Javascript中的原型"><span class="nav-number">1.0.1.</span> <span class="nav-text">Javascript中的原型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#原型链-又叫做原型继承"><span class="nav-number">1.0.2.</span> <span class="nav-text">原型链(又叫做原型继承)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#proto-对象"><span class="nav-number">1.0.3.</span> <span class="nav-text">__proto__对象</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#原型查找是动态的"><span class="nav-number">1.0.4.</span> <span class="nav-text">原型查找是动态的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#新建-更新的属性被赋值给了对象，而不是它的原型"><span class="nav-number">1.0.5.</span> <span class="nav-text">新建/更新的属性被赋值给了对象，而不是它的原型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Object-create"><span class="nav-number">1.0.6.</span> <span class="nav-text">Object.create</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Object-getPrototype"><span class="nav-number">1.0.7.</span> <span class="nav-text">Object.getPrototype</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#构造函数"><span class="nav-number">1.0.8.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#作为构造器的函数"><span class="nav-number">1.0.9.</span> <span class="nav-text">作为构造器的函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#隐式赋值的「this」"><span class="nav-number">1.0.10.</span> <span class="nav-text">隐式赋值的「this」</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#「函数原型」"><span class="nav-number">1.0.11.</span> <span class="nav-text">「函数原型」</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Uncle Ye</span>
+</div>
+
+<div class="powered-by">
+  powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"uncleye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
