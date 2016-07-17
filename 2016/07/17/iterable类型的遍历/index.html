@@ -103,19 +103,22 @@
 
 
 
-<meta name="description" content="本文介绍的是JavaScript中的比较运算符使用过程中我们需要注意的地方当我们队Number做比较时，我们可以通过比较运算符得到一个布尔值：
-1231 &amp;gt; 2; //false9 &amp;gt;= 3; //true5 == 5; //true">
+<meta name="description" content="遍历Array可以采用下标循环，遍历Map和Set就无法使用下标。为了统一集合类型，ES6标准引入了新的iterable类型，Array、Map和Set都属于iterable类型。
+具有iterable类型的集合可以通过新的for … of循环来遍历。
+由于for … of循环是ES6引入的心的语法，所以很多浏览器支持不太好。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript比较运算符">
-<meta property="og:url" content="http://yoursite.com/2016/07/05/JavaScript比较运算符/index.html">
+<meta property="og:title" content="iterable类型的遍历">
+<meta property="og:url" content="http://yoursite.com/2016/07/17/iterable类型的遍历/index.html">
 <meta property="og:site_name" content="UncleYe's Blog">
-<meta property="og:description" content="本文介绍的是JavaScript中的比较运算符使用过程中我们需要注意的地方当我们队Number做比较时，我们可以通过比较运算符得到一个布尔值：
-1231 &amp;gt; 2; //false9 &amp;gt;= 3; //true5 == 5; //true">
-<meta property="og:updated_time" content="2016-07-17T10:15:32.000Z">
+<meta property="og:description" content="遍历Array可以采用下标循环，遍历Map和Set就无法使用下标。为了统一集合类型，ES6标准引入了新的iterable类型，Array、Map和Set都属于iterable类型。
+具有iterable类型的集合可以通过新的for … of循环来遍历。
+由于for … of循环是ES6引入的心的语法，所以很多浏览器支持不太好。">
+<meta property="og:updated_time" content="2016-07-17T10:18:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript比较运算符">
-<meta name="twitter:description" content="本文介绍的是JavaScript中的比较运算符使用过程中我们需要注意的地方当我们队Number做比较时，我们可以通过比较运算符得到一个布尔值：
-1231 &amp;gt; 2; //false9 &amp;gt;= 3; //true5 == 5; //true">
+<meta name="twitter:title" content="iterable类型的遍历">
+<meta name="twitter:description" content="遍历Array可以采用下标循环，遍历Map和Set就无法使用下标。为了统一集合类型，ES6标准引入了新的iterable类型，Array、Map和Set都属于iterable类型。
+具有iterable类型的集合可以通过新的for … of循环来遍历。
+由于for … of循环是ES6引入的心的语法，所以很多浏览器支持不太好。">
 
 
 
@@ -133,7 +136,7 @@
   };
 </script>
 
-  <title> JavaScript比较运算符 | UncleYe's Blog </title>
+  <title> iterable类型的遍历 | UncleYe's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -273,7 +276,7 @@
             
             
               
-                JavaScript比较运算符
+                iterable类型的遍历
               
             
           </h1>
@@ -285,8 +288,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-05T10:26:12+08:00" content="2016-07-05">
-              2016-07-05
+            <time itemprop="dateCreated" datetime="2016-07-17T18:16:12+08:00" content="2016-07-17">
+              2016-07-17
             </time>
           </span>
 
@@ -315,8 +318,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/07/05/JavaScript比较运算符/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/05/JavaScript比较运算符/" itemprop="commentsCount"></span>
+                <a href="/2016/07/17/iterable类型的遍历/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/17/iterable类型的遍历/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -339,23 +342,28 @@
       
 
       
-        <h3 id="本文介绍的是JavaScript中的比较运算符使用过程中我们需要注意的地方"><a href="#本文介绍的是JavaScript中的比较运算符使用过程中我们需要注意的地方" class="headerlink" title="本文介绍的是JavaScript中的比较运算符使用过程中我们需要注意的地方"></a>本文介绍的是JavaScript中的比较运算符使用过程中我们需要注意的地方</h3><p>当我们队Number做比较时，我们可以通过比较运算符得到一个布尔值：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> &gt; <span class="number">2</span>; <span class="comment">//false</span></span><br><span class="line"><span class="number">9</span> &gt;= <span class="number">3</span>; <span class="comment">//true</span></span><br><span class="line"><span class="number">5</span> == <span class="number">5</span>; <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>实际上，JavaScript允许对任意数据类型做比较：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">false</span> == <span class="number">0</span>;<span class="comment">//true</span></span><br><span class="line"><span class="literal">false</span> === <span class="number">0</span>;<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
-<p>要特别注意相等运算符<code>==</code>。JavaScript在设计时，有两种比较运算符：</p>
-<p>第一种是<code>==</code>比较，它会自动转换数据类型再比较，很多时候，会得到非常诡异的结果；</p>
-<p>第二种是<code>===</code>比较，它不会自动转换数据类型，如果数据类型不一致，返回<code>false</code>，如果一致，再比较。</p>
-<p>由于JavaScript的这个设计缺陷，<em>不要</em>使用<code>==</code>比较，始终坚持<code>===</code>比较。</p>
-<p>另一个例外是<code>NaN</code>这个特殊的Number与所有其他值都不相等，包括它自己：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span>; <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
-<p>唯一能判断<code>NaN</code>的方法是通过<code>isNaN()</code>函数：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">isNaN</span>(<span class="literal">NaN</span>); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-<p>最后要注意浮点数的比较：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> / <span class="number">3</span> === (<span class="number">1</span> - <span class="number">2</span> / <span class="number">3</span>); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
-<p>这不是JavaScript的设计缺陷。浮点数在运算过程中会产生误差，因为计算机无法精确表示无限循环小数。要比较两个浮点数是否相等，只能计算它们之差的绝对值，看是否小于某个阈值：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Math</span>.abs(<span class="number">1</span> / <span class="number">3</span> - (<span class="number">1</span> - <span class="number">2</span> / <span class="number">3</span>)) &lt; <span class="number">0.0000001</span>; <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+        <p>遍历<code>Array</code>可以采用下标循环，遍历<code>Map</code>和<code>Set</code>就无法使用下标。为了统一集合类型，ES6标准引入了新的<code>iterable</code>类型，<code>Array</code>、<code>Map</code>和<code>Set</code>都属于<code>iterable</code>类型。</p>
+<p>具有<code>iterable</code>类型的集合可以通过新的<code>for … of</code>循环来遍历。</p>
+<p>由于<code>for … of</code>循环是ES6引入的心的语法，所以很多浏览器支持不太好。<br><a id="more"></a><br>用<code>for … of</code>循环遍历集合，用法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>];</span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>]);</span><br><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="number">1</span>, <span class="string">'x'</span>], [<span class="number">2</span>, <span class="string">'y'</span>], [<span class="number">3</span>, <span class="string">'z'</span>]]);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> x <span class="keyword">of</span> a) &#123; <span class="comment">// 遍历Array</span></span><br><span class="line">    alert(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> x <span class="keyword">of</span> s) &#123; <span class="comment">// 遍历Set</span></span><br><span class="line">    alert(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> x <span class="keyword">of</span> m) &#123; <span class="comment">// 遍历Map</span></span><br><span class="line">    alert(x[<span class="number">0</span>] + <span class="string">'='</span> + x[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么，<code>for … of</code>和<code>for … in</code>循环有什么区别？</p>
+<p><code>for ... in</code>循环由于历史遗留问题，它遍历的实际上是对象的属性名称。一个<code>Array</code>数组实际上也是一个对象，它的每个元素的索引被视为一个属性。</p>
+<p>当我们手动给<code>Array</code>对象添加了额外的属性后，<code>for ... in</code>循环将带来意想不到的意外效果：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>];</span><br><span class="line">a.name = <span class="string">'Hello'</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> x <span class="keyword">in</span> a) &#123;</span><br><span class="line">    alert(x); <span class="comment">// '0', '1', '2', 'name'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>for ... in</code>循环将把<code>name</code>包括在内，但<code>Array</code>的<code>length</code>属性却不包括在内。</p>
+<p><code>for ... of</code>循环则完全修复了这些问题，它只循环集合本身的元素:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>];</span><br><span class="line">a.name = <span class="string">'Hello'</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> x <span class="keyword">of</span> a) &#123;</span><br><span class="line">    alert(x); <span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是为什么要引入新的<code>for ... of</code>循环。</p>
+<p>然而，更好的方式是直接使用<code>iterable</code>内置的<code>forEach</code>方法，它接收一个函数，每次迭代就自动回调该函数。以<code>Array</code>为例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>];</span><br><span class="line">a.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">element, index, array</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// element: 指向当前元素的值</span></span><br><span class="line">    <span class="comment">// index: 指向当前索引</span></span><br><span class="line">    <span class="comment">// array: 指向Array对象本身</span></span><br><span class="line">    alert(element);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><em>注意</em>，<code>forEach()</code>方法是ES5.1标准引入的，你需要测试浏览器是否支持。</p>
+<p><code>Set</code>与<code>Array</code>类似，但<code>Set</code>没有索引，因此回调函数的前两个参数都是元素本身：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>]);</span><br><span class="line">s.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">element, sameElement, set</span>) </span>&#123;</span><br><span class="line">    alert(element);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>Map</code>的回调函数参数依次为<code>value</code>、<code>key</code>和<code>map</code>本身：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="number">1</span>, <span class="string">'x'</span>], [<span class="number">2</span>, <span class="string">'y'</span>], [<span class="number">3</span>, <span class="string">'z'</span>]]);</span><br><span class="line">m.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">value, key, map</span>) </span>&#123;</span><br><span class="line">    alert(value);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>如果对某些参数不感兴趣，由于JavaScript的函数调用不要求参数必须一致，因此可以忽略它们。例如，只需要获得<code>Array</code>的<code>element</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>];</span><br><span class="line">a.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">element</span>) </span>&#123;</span><br><span class="line">    alert(element);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>标注：本文摘录修改自网络</p>
 
       
     </div>
@@ -386,17 +394,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/21/Javascript的原型/" rel="next" title="Javascript的原型">
-                <i class="fa fa-chevron-left"></i> Javascript的原型
+              <a href="/2016/07/05/JavaScript比较运算符/" rel="next" title="JavaScript比较运算符">
+                <i class="fa fa-chevron-left"></i> JavaScript比较运算符
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/07/17/iterable类型的遍历/" rel="prev" title="iterable类型的遍历">
-                iterable类型的遍历 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -422,8 +426,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/07/05/JavaScript比较运算符/"
-           data-title="JavaScript比较运算符" data-url="http://yoursite.com/2016/07/05/JavaScript比较运算符/">
+      <div class="ds-thread" data-thread-key="2016/07/17/iterable类型的遍历/"
+           data-title="iterable类型的遍历" data-url="http://yoursite.com/2016/07/17/iterable类型的遍历/">
       </div>
     
   </div>
@@ -557,7 +561,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本文介绍的是JavaScript中的比较运算符使用过程中我们需要注意的地方"><span class="nav-number">1.</span> <span class="nav-text">本文介绍的是JavaScript中的比较运算符使用过程中我们需要注意的地方</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
