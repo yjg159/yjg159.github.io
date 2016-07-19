@@ -105,20 +105,20 @@
 
 <meta name="description" content="遍历Array可以采用下标循环，遍历Map和Set就无法使用下标。为了统一集合类型，ES6标准引入了新的iterable类型，Array、Map和Set都属于iterable类型。
 具有iterable类型的集合可以通过新的for … of循环来遍历。
-由于for … of循环是ES6引入的心的语法，所以很多浏览器支持不太好。">
+由于for … of循环是ES6引入的新的语法，所以很多浏览器支持不太好。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iterable类型的遍历">
 <meta property="og:url" content="http://yoursite.com/2016/07/17/iterable类型的遍历/index.html">
 <meta property="og:site_name" content="UncleYe's Blog">
 <meta property="og:description" content="遍历Array可以采用下标循环，遍历Map和Set就无法使用下标。为了统一集合类型，ES6标准引入了新的iterable类型，Array、Map和Set都属于iterable类型。
 具有iterable类型的集合可以通过新的for … of循环来遍历。
-由于for … of循环是ES6引入的心的语法，所以很多浏览器支持不太好。">
-<meta property="og:updated_time" content="2016-07-17T10:18:46.000Z">
+由于for … of循环是ES6引入的新的语法，所以很多浏览器支持不太好。">
+<meta property="og:updated_time" content="2016-07-18T01:24:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iterable类型的遍历">
 <meta name="twitter:description" content="遍历Array可以采用下标循环，遍历Map和Set就无法使用下标。为了统一集合类型，ES6标准引入了新的iterable类型，Array、Map和Set都属于iterable类型。
 具有iterable类型的集合可以通过新的for … of循环来遍历。
-由于for … of循环是ES6引入的心的语法，所以很多浏览器支持不太好。">
+由于for … of循环是ES6引入的新的语法，所以很多浏览器支持不太好。">
 
 
 
@@ -344,7 +344,7 @@
       
         <p>遍历<code>Array</code>可以采用下标循环，遍历<code>Map</code>和<code>Set</code>就无法使用下标。为了统一集合类型，ES6标准引入了新的<code>iterable</code>类型，<code>Array</code>、<code>Map</code>和<code>Set</code>都属于<code>iterable</code>类型。</p>
 <p>具有<code>iterable</code>类型的集合可以通过新的<code>for … of</code>循环来遍历。</p>
-<p>由于<code>for … of</code>循环是ES6引入的心的语法，所以很多浏览器支持不太好。<br><a id="more"></a><br>用<code>for … of</code>循环遍历集合，用法如下：</p>
+<p>由于<code>for … of</code>循环是ES6引入的新的语法，所以很多浏览器支持不太好。<br><a id="more"></a><br>用<code>for … of</code>循环遍历集合，用法如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>];</span><br><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>]);</span><br><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="number">1</span>, <span class="string">'x'</span>], [<span class="number">2</span>, <span class="string">'y'</span>], [<span class="number">3</span>, <span class="string">'z'</span>]]);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> x <span class="keyword">of</span> a) &#123; <span class="comment">// 遍历Array</span></span><br><span class="line">    alert(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> x <span class="keyword">of</span> s) &#123; <span class="comment">// 遍历Set</span></span><br><span class="line">    alert(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> x <span class="keyword">of</span> m) &#123; <span class="comment">// 遍历Map</span></span><br><span class="line">    alert(x[<span class="number">0</span>] + <span class="string">'='</span> + x[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>那么，<code>for … of</code>和<code>for … in</code>循环有什么区别？</p>
 <p><code>for ... in</code>循环由于历史遗留问题，它遍历的实际上是对象的属性名称。一个<code>Array</code>数组实际上也是一个对象，它的每个元素的索引被视为一个属性。</p>
@@ -401,6 +401,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/19/全面理解HTTP/" rel="prev" title="全面理解HTTP">
+                全面理解HTTP <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -472,7 +476,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -480,7 +484,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -489,7 +493,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
